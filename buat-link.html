@@ -210,91 +210,96 @@ Keluarga Ahmad"
   </section>
 
 
-  <script>
+<script>
+  const nameInput = document.getElementById("name");
+  const makeBtn = document.getElementById("make");
+  const result = document.getElementById("result");
+  const link = document.getElementById("link");
+  const copyBtn = document.getElementById("copy");
 
-    const nameInput = document.getElementById("name");
-    const makeBtn = document.getElementById("make");
-    const result = document.getElementById("result");
-    const link = document.getElementById("link");
-    const copyBtn = document.getElementById("copy");
+
+  // Membuat link undangan
+  function makeLink() {
+
+    const name = nameInput.value.trim();
+
+    if (!name) {
+      nameInput.focus();
+      return;
+    }
+
+    const base =
+      new URL("index.html", location.href).href;
+
+    const guestName =
+      encodeURIComponent(name);
+
+    link.value =
+      base + "?to=" + guestName;
+
+    result.classList.add("show");
+
+    link.select();
+  }
 
 
-    // Membuat link undangan
-    makeBtn.addEventListener("click", () => {
+  makeBtn.addEventListener("click", makeLink);
 
-      const name = nameInput.value.trim();
 
-      if (!name) {
-        nameInput.focus();
-        return;
-      }
+  // Keyboard
+  nameInput.addEventListener("keydown", (e) => {
 
-      const base =
-        new URL("index.html", location.href).href;
+    // Enter biasa = BARIS BARU
+    if (e.key === "Enter" && !e.ctrlKey && !e.metaKey) {
+      e.stopPropagation();
+      return;
+    }
 
-      const guestName =
-        encodeURIComponent(name);
+    // Ctrl + Enter / Cmd + Enter = BUAT LINK
+    if (
+      e.key === "Enter" &&
+      (e.ctrlKey || e.metaKey)
+    ) {
 
-      link.value =
-        base + "?to=" + guestName;
+      e.preventDefault();
+      e.stopPropagation();
 
-      result.classList.add("show");
+      makeLink();
+    }
+
+  });
+
+
+  // Tombol salin
+  copyBtn.addEventListener("click", async () => {
+
+    try {
+
+      await navigator.clipboard.writeText(
+        link.value
+      );
+
+      copyBtn.textContent = "Tersalin!";
+
+      setTimeout(() => {
+        copyBtn.textContent = "Salin";
+      }, 1300);
+
+    } catch {
 
       link.select();
 
-    });
+      document.execCommand("copy");
 
+      copyBtn.textContent = "Tersalin!";
 
-    // Ctrl + Enter = buat link
-    // Enter biasa = pindah baris
-    nameInput.addEventListener("keydown", (e) => {
+      setTimeout(() => {
+        copyBtn.textContent = "Salin";
+      }, 1300);
 
-      if (
-        e.key === "Enter" &&
-        (e.ctrlKey || e.metaKey)
-      ) {
+    }
 
-        e.preventDefault();
-
-        makeBtn.click();
-
-      }
-
-    });
-
-
-    // Tombol salin
-    copyBtn.addEventListener("click", async () => {
-
-      try {
-
-        await navigator.clipboard.writeText(
-          link.value
-        );
-
-        copyBtn.textContent = "Tersalin!";
-
-        setTimeout(() => {
-          copyBtn.textContent = "Salin";
-        }, 1300);
-
-      } catch {
-
-        link.select();
-
-        document.execCommand("copy");
-
-        copyBtn.textContent = "Tersalin!";
-
-        setTimeout(() => {
-          copyBtn.textContent = "Salin";
-        }, 1300);
-
-      }
-
-    });
-
-  </script>
-
+  });
+</script>
 </body>
 </html>
