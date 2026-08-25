@@ -1,13 +1,32 @@
 *{box-sizing:border-box}
 html,body{margin:0;min-height:100%;background:#073f66}
 body{font-family:Georgia,"Times New Roman",serif;color:#fff;overflow:hidden}
-white-space: pre-line;
 .app{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px 10px}
 .book-wrap{width:min(94vw,760px);perspective:1800px}
 .book{position:relative;width:100%;aspect-ratio:1600/1178;cursor:pointer;transform-style:preserve-3d;outline:none;touch-action:manipulation}
 .page-image{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;border-radius:2px;display:block;user-select:none;-webkit-user-drag:none;backface-visibility:hidden;filter:drop-shadow(0 18px 25px rgba(0,0,0,.28))}
 .page-shadow{position:absolute;inset:4% 2%;border-radius:4px;background:#000;filter:blur(20px);opacity:.25;transform:translateZ(-12px);pointer-events:none}
-.recipient{position:absolute;left:22%;right:22%;top:61.1%;height:7%;display:flex;align-items:center;justify-content:center;text-align:center;font-family:"Segoe Script","Brush Script MT",cursive;font-size:clamp(15px,2.8vw,26px);font-weight:600;color:#252b36;text-shadow:0 1px 0 rgba(255,255,255,.45);pointer-events:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.recipient{
+  position:absolute;
+  left:18%;
+  right:18%;
+  top:59%;
+  height:12%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  font-family:"Segoe Script","Brush Script MT",cursive;
+  font-size:clamp(15px,2.8vw,26px);
+  font-weight:600;
+  line-height:1.25;
+  color:#252b36;
+  text-shadow:0 1px 0 rgba(255,255,255,.45);
+  pointer-events:none;
+  white-space:pre-line;
+  overflow:hidden;
+  overflow-wrap:break-word;
+}
 .hint{position:absolute;left:50%;bottom:-38px;transform:translateX(-50%);font:600 12px/1.2 system-ui,sans-serif;letter-spacing:.04em;opacity:.82;white-space:nowrap;pointer-events:none}
 .bottom{height:34px;margin-top:48px;display:flex;gap:14px;align-items:center;justify-content:center;font:500 12px system-ui,sans-serif;opacity:.88}
 .make-link{color:#fff;text-decoration:none;border:1px solid rgba(255,255,255,.5);border-radius:999px;padding:7px 12px;background:rgba(255,255,255,.08)}
