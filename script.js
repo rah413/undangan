@@ -32,7 +32,7 @@ function getRecipient() {
 const name = getRecipient();
 
 if (name) {
-  recipient.innerHTML = escapeHTML(name);
+  recipient.innerHTML = escapeHTML(name).replace(/\r?\n/g, "<br>");
 } else {
   recipient.textContent = "";
 }
