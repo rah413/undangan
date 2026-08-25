@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#073f66">
+  <title>Buat Link Tamu — Ade & Ros</title>
+  <style>
+    *{box-sizing:border-box}body{margin:0;min-height:100svh;background:#073f66;color:#fff;font-family:system-ui,-apple-system,Segoe UI,sans-serif;display:grid;place-items:center;padding:20px}
+    .box{width:min(92vw,520px);background:#fff;color:#17202a;border-radius:18px;padding:24px;box-shadow:0 18px 50px #0005}
+    h1{margin:0 0 8px;font:700 25px Georgia,serif}.sub{margin:0 0 20px;color:#5b6570;font-size:14px;line-height:1.5}
+    label{display:block;font-size:13px;font-weight:700;margin-bottom:7px}
+    input{width:100%;padding:13px 14px;border:1px solid #ccd3da;border-radius:10px;font-size:16px;outline:none}
+    input:focus{border-color:#073f66;box-shadow:0 0 0 3px #073f6620}
+    button{width:100%;margin-top:12px;padding:13px;border:0;border-radius:10px;background:#073f66;color:#fff;font-size:15px;font-weight:700;cursor:pointer}
+    .result{display:none;margin-top:18px}.result.show{display:block}.result label{margin-bottom:7px}
+    .linkrow{display:flex;gap:8px}.linkrow input{font-size:13px;background:#f6f7f8}.copy{width:auto;white-space:nowrap;margin:0;padding:0 14px}
+    .back{display:block;margin-top:18px;text-align:center;color:#073f66;text-decoration:none;font-size:13px}
+    .note{margin-top:14px;font-size:12px;color:#707983;line-height:1.5}
+  </style>
+</head>
+<body>
+  <section class="box">
+    <h1>Buat link tamu</h1>
+    <p class="sub">Masukkan nama penerima. Nama akan tampil otomatis di sampul undangan tanpa perlu mengubah kode.</p>
+    <label for="name">Nama penerima</label>
+    <input id="name" type="text" placeholder="Contoh: Bapak/Ibu Keluarga Budi" autocomplete="off">
+    <button id="make">Buat Link</button>
+
+    <div id="result" class="result">
+      <label>Link undangan</label>
+      <div class="linkrow">
+        <input id="link" readonly>
+        <button id="copy" class="copy">Salin</button>
+      </div>
+      <div class="note">Kirim link ini ke tamu. Saat dibuka, nama penerima sudah terisi.</div>
+    </div>
+    <a class="back" href="index.html">← Kembali ke undangan</a>
+  </section>
+
+  <script>
+    const nameInput = document.getElementById("name");
+    const makeBtn = document.getElementById("make");
+    const result = document.getElementById("result");
+    const link = document.getElementById("link");
+    const copyBtn = document.getElementById("copy");
+
+    makeBtn.addEventListener("click", () => {
+      const name = nameInput.value.trim();
+      if (!name) {
+        nameInput.focus();
+        return;
+      }
+      const base = new URL("index.html", location.href).href;
+      link.value = base + "?to=" + encodeURIComponent(name);
+      result.classList.add("show");
+      link.select();
+    });
+
+    copyBtn.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(link.value);
+        copyBtn.textContent = "Tersalin!";
+        setTimeout(() => copyBtn.textContent = "Salin", 1300);
+      } catch {
+        link.select();
+        document.execCommand("copy");
+        copyBtn.textContent = "Tersalin!";
+        setTimeout(() => copyBtn.textContent = "Salin", 1300);
+      }
+    });
+
+    nameInput.addEventListener("keydown", e => {
+      if (e.key === "Enter") makeBtn.click();
+    });
+  </script>
+</body>
+</html>
